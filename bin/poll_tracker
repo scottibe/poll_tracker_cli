@@ -3,6 +3,8 @@
 require "bundler/setup"
 require "poll_tracker"
 
-PollTracker::CLI.new.call
+PollTracker::CLI.new.welcome
+
+
 
 
