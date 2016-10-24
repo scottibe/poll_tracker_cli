@@ -10,21 +10,14 @@ class PollTracker::Scraper
     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
   end
 
-  def get_page_2
-    doc_2 = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/polls/abc-news-26379"))  
-    binding.pry
-  end  
-
-  def scrape_polls
+  def poll_names
     names = []
     poll_names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
     poll_names.children.collect do |name|
       names << name.text
     end
-    names 
-    binding.pry
+    puts names 
   end  
-
 end  
 
   

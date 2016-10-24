@@ -26,14 +26,14 @@ class PollTracker::CLI
     end
   end               
   
-
-  def  poll_list 
+   # this method will be below list of polls, 
+  def  polls  
     list = ["Average of all polls", "poll one", "poll two", "poll three", "poll four", "poll five", "poll six", "poll seven", "poll eight", "poll nine", "poll ten", "poll eleven", "poll twelve", "poll thirteen", "poll fourteen", "poll fifteen"]
     list.each.with_index(1) do |poll, i|
       puts "#{i}. " "#{poll}"
     end
   end        
-    #this method should print the list of polls
+     
 
  
 

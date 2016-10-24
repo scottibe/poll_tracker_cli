@@ -1,10 +1,19 @@
 require 'pry'
 class PollTracker::Poll
-#   attr_accessor :name
+  attr_accessor :name, :trump, :clinton, :other, :undecided, :date, :voters 
 
-#   def initialize 
+  @@all = []
 
-#   end
+  def initialize(name)
+    @name = name
+    @trump = trump
+    @clinton= clinton
+    @other = other
+    @undecided = undecided
+    @date = date
+    @voters = voters
+    @@all << self
+  end
 
 
 end  

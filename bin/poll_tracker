@@ -5,6 +5,6 @@ require "poll_tracker"
 
 # PollTracker::CLI.new.welcome
 # PollTracker::Scraper.new.poll
-PollTracker::Scraper.new.scrape_polls
+PollTracker::Scraper.new.poll_names
 
 
