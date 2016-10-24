@@ -7,4 +7,4 @@ class PollTracker::Poll
 #   end
 
 
-# end  
+end  
