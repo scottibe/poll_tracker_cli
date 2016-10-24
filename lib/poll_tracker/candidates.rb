@@ -17,7 +17,14 @@ class PollTracker::Scraper
       names << name.text
     end
     puts names 
-  end  
+  end
+
+  def candidates
+    results_hash = {}   
+    results = get_page("div.scrollable-poll-table table#poll-table tr th.choice")
+    binding.pry
+  end
+
 end  
 
   
