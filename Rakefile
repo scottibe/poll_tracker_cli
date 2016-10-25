@@ -5,9 +5,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 task :default => :spec
 
-# task :default => :spec
-
-# desc "A console"
-# task :console do
-#   Pry.start
-# end
+desc "A console"
+task :console do
+  Pry.start
+end

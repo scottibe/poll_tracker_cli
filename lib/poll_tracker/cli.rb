@@ -1,5 +1,7 @@
+require_relative "../poll_tracker/candidates.rb"
 require 'pry'
 class PollTracker::CLI
+  
 
   def welcome
     input = nil
@@ -12,11 +14,11 @@ class PollTracker::CLI
     puts "To see what's happening in the 2016 Presidential Election type 'Hillary' or 'Trump'".blue.bold
     puts "" 
     
-    while input != "exit" do
+    while input != "exit" 
     input = gets.strip.downcase
       
       if input.downcase == "trump" || input.downcase == "hillary"
-        poll_list
+        list_polls     
       else 
         puts "Rigged! Try again, type 'trump' or 'hillary'. Otherwise, type exit and leave!"       
       end
@@ -27,13 +29,15 @@ class PollTracker::CLI
   end               
   
    # this method will be below list of polls, 
-  def  polls  
-    list = ["Average of all polls", "poll one", "poll two", "poll three", "poll four", "poll five", "poll six", "poll seven", "poll eight", "poll nine", "poll ten", "poll eleven", "poll twelve", "poll thirteen", "poll fourteen", "poll fifteen"]
-    list.each.with_index(1) do |poll, i|
+  def list_polls 
+    polls = PollTracker::Poll.poll_names
+    poll.each.with_index(1) do |poll, i|
       puts "#{i}. " "#{poll}"
     end
   end        
      
+
+end     
 
  
 
@@ -52,9 +56,6 @@ class PollTracker::CLI
 
 # end
 
-
-end
-  
 
 
 

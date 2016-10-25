@@ -2,26 +2,35 @@ require 'pry'
 require 'nokogiri'
 require 'open-uri'
 
-class PollTracker::Candidate
+class PollTracker::Candidates
 
+  attr_accessor :name, :score, :poll, :win_cand, :losing_cand
 
+  def initialize
+    @name = name
+    @score = score
+    @poll = poll
+    @win_cand = win_cand
+    @losing_cand = losing_cand
+  end  
 
   def get_page 
     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
   end
 
-  def poll_names
-    names = []
-    poll_names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
-    poll_names.children.collect do |name|
-      names << name.text
+  def self.poll_names
+    polls = []
+    names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
+    names.children.collect do |name|
+      polls << name.text
     end
-    puts names 
+    polls 
   end
 
-  def candidates
-    results_hash = {}   
-    results = get_page("div.scrollable-poll-table table#poll-table tr th.choice")
+
+  def self.create_by_page 
+      
+    results = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice")
     binding.pry
   end
 
