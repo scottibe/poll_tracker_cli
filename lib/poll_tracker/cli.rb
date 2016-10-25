@@ -7,10 +7,10 @@ class PollTracker::CLI
     input = nil
     puts "POLL TRACKER 2016!! TRUMP vs CLINTON!! THE SHAMING OF AMERICA".red.bold
     puts ""
-    sleep(2)
+    # sleep(2)
     puts "Hello! I am Poll Tracker! I can show many polls and a poll of those polls. I've even got a few stories to tell.".white.on_blue.bold
     puts "" 
-    sleep(1.5)
+    # sleep(1.5)
     puts "To see what's happening in the 2016 Presidential Election type 'Hillary' or 'Trump'".blue.bold
     puts "" 
     
@@ -29,15 +29,16 @@ class PollTracker::CLI
   end               
   
    # this method will be below list of polls, 
-  def list_polls 
+   def list_polls
     polls = PollTracker::Poll.poll_names
-    poll.each.with_index(1) do |poll, i|
+    polls = polls.first(25)
+    polls.each.with_index(1) do |poll, i|
       puts "#{i}. " "#{poll}"
-    end
+    end  
   end        
+end         
      
-
-end     
+   
 
  
 
