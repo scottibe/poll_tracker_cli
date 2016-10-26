@@ -2,42 +2,109 @@ require 'pry'
 require 'nokogiri'
 require 'open-uri'
 
-class PollTracker::Candidates
 
-  attr_accessor :name, :score, :poll, :win_cand, :losing_cand
+class PollTracker::Scraper  
 
-  def initialize
-    @name = name
-    @score = score
-    @poll = poll
-    @win_cand = win_cand
-    @losing_cand = losing_cand
-  end  
-
-  def get_page 
+  def self.get_page 
     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
   end
 
-  def self.poll_names
+
+  def self.list_polls
     polls = []
     names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
     names.children.collect do |name|
       polls << name.text
     end
-    polls 
+  end  
+
+  def self.list_top_polls
+    list_polls.flatten.first(25).each.with_index(1) do |poll, i|
+      puts  "#{i}. " "#{poll}"
+    end
   end
-
-
-  def self.create_by_page 
-      
-    results = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice")
-    binding.pry
-  end
-
-end  
 
   
-  # Huffpost model - poll of polls - 326 pols from 42 pollsters
+end  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    #   def self.get_page 
+#     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
+#   end
+
+  # def self.poll_names
+  #   polls = []
+  #   names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
+  #   names.children.collect do |name|
+  #     polls << name.text
+  #   end
+  #   polls
+  # end
+
+#   def create_from_name(poll_names) 
+#     polls = []
+#     poll_names.each do |name|
+#       poll = Poll.new(name)
+#       polls << poll 
+#     end
+#     polls
+#   end
+
+
+
+# end      
+
+
+
+
+
+  # def self.create_by_page 
+      
+  #   results = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice")
+  #   binding.pry
+  # end
+
+
+
+
+  # def self.create_new_poll
+
+  # end
+
+
+
+
+
+
+
+
+
+
+
+# Huffpost model - poll of polls - 326 pols from 42 pollsters
   # Clinton name - doc.css("ul#chart-choice-select li label.checked span.choice").first.text
   # Clinton number - doc.css("ul#chart-choice-select li label.checked span.value").first.text.gsub("%", "").to_f
   # Trump name - doc.css("ul#chart-choice-select li label.checked span.choice").last.text
@@ -62,3 +129,8 @@ end
 
   # doc.css("div.scrollable-poll-table table#poll-table tr th.spread").text
   # returns the word 'Spread' number 5 on the list above
+
+  
+
+  
+  

@@ -1,4 +1,3 @@
-require_relative "../poll_tracker/candidates.rb"
 require 'pry'
 class PollTracker::CLI
   
@@ -28,14 +27,24 @@ class PollTracker::CLI
     end
   end               
   
-   # this method will be below list of polls, 
-   def list_polls
-    polls = PollTracker::Poll.poll_names
-    polls = polls.first(25)
-    polls.each.with_index(1) do |poll, i|
-      puts "#{i}. " "#{poll}"
-    end  
-  end        
+  #  this method will be below list of polls, 
+  # def list_polls
+  # polls = PollTracker::Poll.poll_names
+  # polls = polls.first(25)
+  #   polls.each.with_index(1) do |poll, i|
+  #     puts "#{i}. " "#{poll}"
+  #   end 
+  # end
+
+  # def poll_objects
+  #   puts  PollTracker::Poll.create_from_name
+  # end  
+
+
+
+
+
+
 end         
      
    

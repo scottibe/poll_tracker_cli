@@ -2,9 +2,7 @@ require 'pry'
 require 'nokogiri'
 require 'open-uri'
 class PollTracker::Poll
-  attr_accessor :name, :winning_cand, :losing_cand, :other, :undecided, :date, :voters
-
-  @@all = []
+  attr_accessor :name, :winning_cand, :losing_cand, :other, :undecided, :date, :polled
 
   def initialize
     @name = name
@@ -13,28 +11,138 @@ class PollTracker::Poll
     @other = other
     @undecided = undecided
     @date = date
-    @voters = voters
-    
-    @@all << self
-  end
-
-  def self.all 
-    @@all 
+    @polled = polled
   end  
 
 
-  def self.get_page 
-    doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
-  end
+  
 
-  def self.poll_names
-    polls = []
-    names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
-    names.children.collect do |name|
-      polls << name.text
+  #this method will be below list of polls, 
+  def set_name_attribute
+    name_hash = {}
+    top_polls = PollTracker::Poll.polls
+    binding.pry
+    top_polls = top_polls.first(25)
+    top_polls.each.with_index(1) do |poll, i|
+      i = :name
+      name_hash[i] = "#{poll}"
     end
-    polls
+    puts name_hash
+  end  
+
+def set_name_attribute
+  name_hash = {}
+  top_polls = PollTracker::Poll.polls
+  top_polls = top_polls.first(25)
+  top_polls.each.with_index(1) do |poll, i|
+    i = :name
+    name_hash[i] = "#{poll}"
+  end  
+  puts name_hash
+end   
+
+  def poll_attributes
+
   end
+    
+end
+     
+
+
+    # poll = self.new
+    # poll.name = "name"
+    # poll.winning_cand = "49.2%"
+    # poll.losing_cand = "41.4%"
+    # poll.other = "6%"
+    # poll.undecided = "9%"
+    # poll.date = "Oct. 19 -- Oct. 24"
+    # poll.polled = "873 likely voters"
+    # poll
+  
+
+  
+
+
+  #  def list_polls
+  # polls = PollTracker::Poll.poll_names
+  # polls = polls.first(25)
+  #   polls.each.with_index(1) do |poll, i|
+  #     puts "#{i}. " "#{poll}"
+  #   end 
+  # end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#   @@all = []
+
+#   def initialize(name)
+#     @name = name
+#     @winning_cand = winning_cand
+#     @losing_cand = losing_cand
+#     @other = other
+#     @undecided = undecided
+#     @date = date
+#     @voters = voters
+    
+#     @@all << self
+#   end
+
+#   def self.all 
+#     @@all 
+#   end  
+
+
+#   def self.get_page 
+#     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
+#   end
+
+  # def self.poll_names
+  #   polls = []
+  #   names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
+  #   names.children.collect do |name|
+  #     polls << name.text
+  #   end
+  #   polls
+  # end
+
+#   def create_from_name(poll_names) 
+#     polls = []
+#     poll_names.each do |name|
+#       poll = Poll.new(name)
+#       polls << poll 
+#     end
+#     polls
+#   end
+
+
+
+# end      
+
+
+
 
 
   # def self.create_by_page 
@@ -50,7 +158,7 @@ class PollTracker::Poll
 
   # end
 
-end  
+
 
 
 

@@ -4,7 +4,7 @@ require "bundler/setup"
 require "poll_tracker"
 
 
- PollTracker::CLI.new.welcome
+ PollTracker::Scraper.new.top_polls
 # PollTracker::Scraper.new.poll
 # PollTracker::Candidates.new.create_by_page  
 
