@@ -50,8 +50,16 @@ class PollTracker::Scraper
       results
     end
     results.first(100)
-  end    
+  end
 
+  def self.result_spread
+    @spreads = []
+    sp = get_page.css("div.scrollable-poll-table table#poll-table td.spread")
+    sp.collect do |spread|
+      @spreads << spread.text
+    end
+    @spreads.first(25)  
+  end  
 
   def self.poll_names
     polls = []
