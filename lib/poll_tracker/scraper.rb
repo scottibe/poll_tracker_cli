@@ -5,50 +5,89 @@ require 'open-uri'
 
 class PollTracker::Scraper  
 
-  def self.get_page 
+  def call
+
+    candidate_list
+  end  
+
+  def self.get_page      
     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
   end
 
 
   def self.list_polls
     polls = []
-    names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
+    names = get_page.css("div.scrollable-poll-table table#poll-table td.choice")#.each {|link| link['data-label'] == "trump"}
+    names 
     names.children.collect do |name|
       polls << name.text
     end
   end  
 
-  def self.list_top_polls
-    list_polls.flatten.first(25).each.with_index(1) do |poll, i|
-      puts  "#{i}. " "#{poll}"
+  def self.result
+    numbers = []
+    list_polls.each do |num|
+      numbers << num.text
     end
+    numbers.first(100)
+  end 
+
+  def self.poll_names
+    polls = []
+    names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
+    names.children.collect do |name|
+      polls << name.text
+    end
+    polls
   end
 
-  
-end  
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
+  # def self.results
+  #   "#{list_polls}"
     
 
+  # end  
+
+
+  #   polls = []
+  #   names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
+  #   names.children.collect do |name|
+  #     polls << name.text
+  #   end
+  # end  
+
+  def self.list_top_polls
+
+    polls_array = []
+    list_polls.flatten.first(25).each.with_index(1) do |poll, i|
+      polls_array <<  "#{i}. " "#{poll}"
+    end
+    polls_array
+  end
+
+  def self.candidate_list
+    @candidates = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice").text.split(/([[:upper:]][[:lower:]]*)/).delete_if(&:empty?)
+    @candidates = @candidates.insert(0, @candidates.delete_at(1))
+  end
+
+
+  # def self.results
+  #   #@clinton = get_page.css("ul#chart-choice-select li label.checked span.value").first.text.gsub("%", "").to_f
+  #   #@trump = get_page.css("ul#chart-choice-select li label.checked span.value").last.text.gsub("%", "").to_f
+  #   @trump = get_page.css("div.scrollable-poll-table table#poll-table td.choice")
+  # end    
+
+  def self.test
+    @real = (1..10).to_a
+    puts @real
+  end  
+
+
+end
+     
 
 
 
-
+#div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a
 
 
     #   def self.get_page 
@@ -76,6 +115,11 @@ end
 
 
 # end      
+
+    # @res = Nokogiri::HTML(open("http://www.nytimes.com/interactive/2016/us/elections/polls.html?_r=1"))
+
+
+    # @undecided = get_page.css("div#pollster-polls div.scrollable-poll-table tbody tr.poll-single-subpopulation td.choice")
 
 
 
@@ -130,7 +174,9 @@ end
   # doc.css("div.scrollable-poll-table table#poll-table tr th.spread").text
   # returns the word 'Spread' number 5 on the list above
 
-  
+# attributes = [ (Attr:0x3fc6f125919c { name = "class", value = "choice " }),
+#                (Attr:0x3fc6f1259188 { name = "data-label", value = "trump" }),
+#                                       children = [ (Text "42")] })
 
   
   

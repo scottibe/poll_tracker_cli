@@ -39,13 +39,17 @@ def set_name_attribute
     name_hash[i] = "#{poll}"
   end  
   puts name_hash
-end   
+end  
 
-  def poll_attributes
+end 
 
-  end
+#   def candidates
+#     candidates = doc.css("div.scrollable-poll-table table#poll-table tr th.choice").text.split(/([[:upper:]][[:lower:]]*)/).delete_if(&:empty?)
+
+
+#   end
     
-end
+# end
      
 
 
