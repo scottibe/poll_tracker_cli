@@ -62,7 +62,7 @@ class PollTracker::Scraper
     polls.first(25) 
   end
 
-  def self.poll_names_with_numbers
+  def self.poll_names_w_numbers
     names = []
     poll_names.each.with_index(1) do |name, i|
        names << "#{i}. " "#{name}"
@@ -71,11 +71,23 @@ class PollTracker::Scraper
   end
 
   def self.poll_date
+    @date_array = []
     @date = get_page.css("tr.poll-single-subpopulation div.dates")
-    @date.children.map do |dates|
-      dates.text
+    @date.children.each do |dates|
+      @date_array << dates.text
     end
-  end  
+    @date_array.first(25)
+  end
+
+
+  def self.likely_voters
+    @vote_array = []
+    @voters = get_page.css("tr.poll-single-subpopulation div.npop")
+    @voters.children.each do |vote|
+      @vote_array << vote.text
+    end
+    @vote_array.first(25)
+  end
  
 end  
 
