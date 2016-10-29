@@ -14,23 +14,44 @@ class PollTracker::Scraper
     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
   end
 
+  def self.candidate_list_w_spead
+    @candidates = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice").text.split(/([[:upper:]][[:lower:]]*)/).delete_if(&:empty?)
+    @candidates = @candidates.insert(0, @candidates.delete_at(1))
+    @candidates
+    @spread = get_page.css("div.scrollable-poll-table table#poll-table tr th.spread").text
+    @candidates << @spread
+  end
 
-  def self.list_polls
+  def self.avg_results_hash
+    @results = []
+    @final_results = {}
+    @clinton = get_page.css("ul#chart-choice-select li label.checked span.value").first.text.gsub("%", "").to_f
+    @results << @clinton
+    @trump = get_page.css("ul#chart-choice-select li label.checked span.value").last.text.gsub("%", "").to_f
+    @results << @trump
+    @results[0].to_i
+    @results[1].to_i
+    @results 
+    @final_results[:clinton] = @results.first
+    @final_results[:trump] = @results.last
+    @final_results    
+  end 
+
+   def self.result_helper
     polls = []
-    names = get_page.css("div.scrollable-poll-table table#poll-table td.choice")#.each {|link| link['data-label'] == "trump"}
-    names 
-    names.children.collect do |name|
-      polls << name.text
-    end
+    names = get_page.css("div.scrollable-poll-table table#poll-table td.choice") 
+    names
   end  
 
-  def self.result
-    numbers = []
-    list_polls.each do |num|
-      numbers << num.text
+  def self.all_poll_results
+    results = []
+    result_helper.each do |el|
+      results << el.text
+      results
     end
-    numbers.first(100)
-  end 
+    results.first(100)
+  end    
+
 
   def self.poll_names
     polls = []
@@ -38,13 +59,41 @@ class PollTracker::Scraper
     names.children.collect do |name|
       polls << name.text
     end
-    polls
+    polls.first(25) 
   end
+
+  def self.poll_names_with_numbers
+    names = []
+    poll_names.each.with_index(1) do |name, i|
+       names << "#{i}. " "#{name}"
+    end
+    names
+  end
+
+  def self.poll_date
+    @date = get_page.css("tr.poll-single-subpopulation div.dates")
+    @date.children.map do |dates|
+      dates.text
+    end
+  end  
+ 
+end  
+
+  
 
   # def self.results
   #   "#{list_polls}"
     
 
+  # end  
+
+  # def self.list_polls
+  #   polls = []
+  #   names = get_page.css("div.scrollable-poll-table table#poll-table td.choice")#.each {|link| link['data-label'] == "trump"}
+  #   names 
+  #   names.children.collect do |name|
+  #     polls << name.text
+  #   end
   # end  
 
 
@@ -55,19 +104,16 @@ class PollTracker::Scraper
   #   end
   # end  
 
-  def self.list_top_polls
+  # def self.list_top_polls
 
-    polls_array = []
-    list_polls.flatten.first(25).each.with_index(1) do |poll, i|
-      polls_array <<  "#{i}. " "#{poll}"
-    end
-    polls_array
-  end
+  #   polls_array = []
+  #   list_polls.flatten.first(25).each.with_index(1) do |poll, i|
+  #     polls_array <<  "#{i}. " "#{poll}"
+  #   end
+  #   polls_array
+  # each_with_index                                             
 
-  def self.candidate_list
-    @candidates = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice").text.split(/([[:upper:]][[:lower:]]*)/).delete_if(&:empty?)
-    @candidates = @candidates.insert(0, @candidates.delete_at(1))
-  end
+  
 
 
   # def self.results
@@ -76,15 +122,20 @@ class PollTracker::Scraper
   #   @trump = get_page.css("div.scrollable-poll-table table#poll-table td.choice")
   # end    
 
-  def self.test
-    @real = (1..10).to_a
-    puts @real
-  end  
+  
 
+# names.children.collect do |name|
+#       polls << name.text
 
-end
-     
-
+  # def self.list_poll_results
+  #   polls = []
+  #   names = get_page.css("div.scrollable-poll-table table#poll-table td.choice").each {|link| link['data-label'] == "trump"}
+  #   names.each.with_index(1) do |num|
+  #     binding.pry
+  #     polls << num.text 
+  #   end
+  #   polls
+  # end
 
 
 #div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a
@@ -154,7 +205,7 @@ end
   # Trump name - doc.css("ul#chart-choice-select li label.checked span.choice").last.text
   # Trump number - doc.css("ul#chart-choice-select li label.checked span.value").last.text.gsub("%", "").to_f     
 
-  #Polls
+  # Polls
   # candidates names(including "other", "undecided" and "spread") iterate w/ #each
   # doc.css("div#pollster-polls div.scrollable-poll-table table#poll-table").first
   
