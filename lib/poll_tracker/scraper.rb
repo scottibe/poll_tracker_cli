@@ -15,26 +15,26 @@ class PollTracker::Scraper
   end
 
   def self.candidate_list_w_spread
-    @candidates = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice").text.split(/([[:upper:]][[:lower:]]*)/).delete_if(&:empty?)
-    @candidates = @candidates.insert(0, @candidates.delete_at(1))
-    @candidates
-    @spread = get_page.css("div.scrollable-poll-table table#poll-table tr th.spread").text
-    @candidates << @spread
+    candidates = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice").text.split(/([[:upper:]][[:lower:]]*)/).delete_if(&:empty?)
+    candidates = candidates.insert(0, candidates.delete_at(1))
+    candidates
+    spread = get_page.css("div.scrollable-poll-table table#poll-table tr th.spread").text
+    candidates << spread
   end
 
   def self.avg_results_hash
-    @results = []
-    @final_results = {}
-    @clinton = get_page.css("ul#chart-choice-select li label.checked span.value").first.text.gsub("%", "").to_f
-    @results << @clinton
-    @trump = get_page.css("ul#chart-choice-select li label.checked span.value").last.text.gsub("%", "").to_f
-    @results << @trump
-    @results[0].to_i
-    @results[1].to_i
-    @results 
-    @final_results[:clinton] = @results.first
-    @final_results[:trump] = @results.last
-    @final_results    
+    results = []
+    final_results = {}
+    clinton = get_page.css("ul#chart-choice-select li label.checked span.value").first.text.gsub("%", "").to_f
+    results << clinton
+    trump = get_page.css("ul#chart-choice-select li label.checked span.value").last.text.gsub("%", "").to_f
+    results << trump
+    results[0].to_i
+    results[1].to_i
+    results 
+    final_results[:clinton] = results.first
+    final_results[:trump] = results.last
+    final_results    
   end 
 
    def self.result_helper
@@ -53,12 +53,12 @@ class PollTracker::Scraper
   end
 
   def self.result_spread
-    @spreads = []
+    spreads = []
     sp = get_page.css("div.scrollable-poll-table table#poll-table td.spread")
     sp.collect do |spread|
-      @spreads << spread.text
+      spreads << spread.text
     end
-    @spreads.first(25)  
+    spreads.first(25)  
   end  
 
   def self.poll_names
@@ -79,22 +79,22 @@ class PollTracker::Scraper
   end
 
   def self.poll_date
-    @date_array = []
-    @date = get_page.css("tr.poll-single-subpopulation div.dates")
-    @date.children.each do |dates|
-      @date_array << dates.text
+    date_array = []
+    date = get_page.css("tr.poll-single-subpopulation div.dates")
+    date.children.each do |dates|
+      date_array << dates.text
     end
-    @date_array.first(25)
+    date_array.first(25)
   end
 
 
   def self.likely_voters
-    @vote_array = []
-    @voters = get_page.css("tr.poll-single-subpopulation div.npop")
-    @voters.children.each do |vote|
-      @vote_array << vote.text
+    vote_array = []
+    voters = get_page.css("tr.poll-single-subpopulation div.npop")
+    voters.children.each do |vote|
+      vote_array << vote.text
     end
-    @vote_array.first(25)
+    vote_array.first(25)
   end
  
 end  

@@ -1,6 +1,9 @@
 require 'pry'
 class PollTracker::CLI
-  
+
+  def call
+    welcome
+  end  
 
   def welcome
     input = nil
@@ -12,7 +15,6 @@ class PollTracker::CLI
     # sleep(1.5)
     puts "To see what's happening in the 2016 Presidential Election type 'Hillary' or 'Trump'".blue.bold
     puts "" 
-    
     while input != "exit" 
     input = gets.strip.downcase
       
@@ -25,7 +27,35 @@ class PollTracker::CLI
         puts "Goodbye. Vote Quimby!"
       end
     end
-  end               
+  end      
+
+
+  def list_polls
+    puts PollTracker::Scraper.poll_names_w_numbers
+    puts "Please choose the number of the poll you would like to see."
+    puts "Enter a number between 1-25"
+    input = gets.strip
+    if input.to_i.between?(1, 25)
+      puts PollTracker::Scraper.poll_names_w_numbers[input.to_i - 1]
+      puts "Type 'Hillary' or 'Trump' to see go back to list."  
+    elsif
+      puts "That is not a valid selection. Please pick again"
+      input_2.to_i.between?(1, 25)
+      puts PollTracker::Scraper.poll_names_w_numbers[input_2.to_i - 1] 
+    else
+      exit
+    end    
+  end
+
+
+
+end
+    
+
+
+
+
+
   
   #  this method will be below list of polls, 
   # def list_polls
@@ -43,9 +73,7 @@ class PollTracker::CLI
 
 
 
-
-
-end         
+     
      
    
 
