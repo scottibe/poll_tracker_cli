@@ -14,12 +14,12 @@ class PollTracker::Scraper
     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
   end
 
-  def self.candidate_list_w_spread
+  def self.candidates
     candidates = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice").text.split(/([[:upper:]][[:lower:]]*)/).delete_if(&:empty?)
-    candidates = candidates.insert(0, candidates.delete_at(1))
-    candidates
-    spread = get_page.css("div.scrollable-poll-table table#poll-table tr th.spread").text
-    candidates << spread
+    candidates 
+    # spread = get_page.css("div.scrollable-poll-table table#poll-table tr th.spread").text
+    # candidates << spread
+    #candidates.insert(0, candidates.delete_at(1))
   end
 
   def self.avg_results_hash
@@ -70,7 +70,7 @@ class PollTracker::Scraper
     polls.first(25) 
   end
 
-  def self.poll_names_w_numbers
+  def self.poll_names_index
     names = []
     poll_names.each.with_index(1) do |name, i|
        names << "#{i}. " "#{name}"
@@ -96,6 +96,12 @@ class PollTracker::Scraper
     end
     vote_array.first(25)
   end
- 
-end  
+
+  def self.candidates_and_results  
+    hash = {}
+    list = (candidates * 25).zip(all_poll_results)
+    list
+  end 
+
+end
 

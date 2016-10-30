@@ -1,27 +1,41 @@
 require 'pry'
-require 'nokogiri'
-require 'open-uri'
 class PollTracker::Poll
-  attr_accessor :name, :winning_cand, :losing_cand, :other, :undecided, :date, :polled
+
+  @@all = []
+
+  attr_accessor :name, :date, :polled, :clinton, :trump
 
   def initialize
     @name = name
-    @winning_cand = winning_cand
-    @losing_cand = losing_cand
-    @other = other
-    @undecided = undecided
     @date = date
     @polled = polled
+    @result = result
+    @clinton = clinton
+    @trump = trump
+    @@all << self
   end  
 
+  def self.new_poll
+    @new_poll_obj = []
+    PollTracker::Scraper.poll_names.each do |name|
+      @new_poll_obj << self.new(name)
+      binding.pry    
+    end
+  end
 
+  def self.results 
+    attrs = {}
+    
+    PollTracker::Scraper.all_poll_results.each do |poll|
+    attrs[PollTracker::Scraper.candidates] = "#{PollTracker::Scraper.all_poll_results}"
+    binding.pry   
+  end
+end  
   
 
-  #this method will be below list of polls, 
   def set_name_attribute
     name_hash = {}
     top_polls = PollTracker::Poll.polls
-    binding.pry
     top_polls = top_polls.first(25)
     top_polls.each.with_index(1) do |poll, i|
       i = :name
