@@ -43,14 +43,31 @@ class PollTracker::Scraper
     names
   end  
 
-  def self.all_poll_results
+  def self.all_results
     results = []
     result_helper.each do |el|
       results << el.text
       results
     end
-    results.first(100)
+    results = results.first(100)
+    results = results.delete_if do |num|
+      num.to_i < 20
+    end  
   end
+
+  def self.trump_results
+    clinton = []
+    trump = []
+    trump, clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
+    trump
+  end
+
+  def self.clinton
+    clinton = []
+    trump = []
+    trump, clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
+    clinton
+  end    
 
   def self.result_spread
     spreads = []
@@ -96,12 +113,5 @@ class PollTracker::Scraper
     end
     vote_array.first(25)
   end
-
-  def self.candidates_and_results  
-    hash = {}
-    list = (candidates * 25).zip(all_poll_results)
-    list
-  end 
-
 end
 

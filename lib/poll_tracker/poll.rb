@@ -3,7 +3,7 @@ class PollTracker::Poll
 
   @@all = []
 
-  attr_accessor :name, :date, :polled, :clinton, :trump
+  attr_accessor :name, :date, :polled, :clinton, :trump, :result
 
   def initialize
     @name = name
@@ -19,18 +19,21 @@ class PollTracker::Poll
     @new_poll_obj = []
     PollTracker::Scraper.poll_names.each do |name|
       @new_poll_obj << self.new(name)
-      binding.pry    
     end
   end
 
-  def self.results 
-    attrs = {}
-    
-    PollTracker::Scraper.all_poll_results.each do |poll|
-    attrs[PollTracker::Scraper.candidates] = "#{PollTracker::Scraper.all_poll_results}"
-    binding.pry   
+  def self.poll(input)
+    poll = self.new
+    poll.name = PollTracker::Scraper.poll_names_index[input - 1]
+    poll.date = PollTracker::Scraper.poll_date[input - 1]
+    poll.polled = PollTracker::Scraper.likely_voters[input - 1]
+    poll.clinton = PollTracker::Scraper
+      
+
+  
+
   end
-end  
+
   
 
   def set_name_attribute

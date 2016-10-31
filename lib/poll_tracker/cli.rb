@@ -36,13 +36,13 @@ class PollTracker::CLI
     puts "Enter a number between 1-25"
     input = gets.strip
     if input.to_i.between?(1, 25)
-      puts PollTracker::Scraper.poll_names_w_numbers[input.to_i - 1]
+      puts PollTracker::Scraper.poll_names_index[input.to_i - 1]
       puts "Type 'Hillary' or 'Trump' to see go back to list."
 
     elsif
       puts "That is not a valid selection. Please pick again"
       input_2.to_i.between?(1, 25)
-      puts PollTracker::Scraper.poll_names_w_numbers[input_2.to_i - 1] 
+      puts PollTracker::Scraper.poll_names_index[input_2.to_i - 1] 
     else
       exit
     end    
