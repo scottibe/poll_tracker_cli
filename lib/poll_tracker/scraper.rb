@@ -5,29 +5,16 @@ require 'open-uri'
 
 class PollTracker::Scraper  
 
-  def call
-
-    candidate_list
-  end  
-
-  def self.get_page      
+  def self.scrape_page      
     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
-  end
-
-  def self.candidates
-    candidates = get_page.css("div.scrollable-poll-table table#poll-table tr th.choice").text.split(/([[:upper:]][[:lower:]]*)/).delete_if(&:empty?)
-    candidates 
-    # spread = get_page.css("div.scrollable-poll-table table#poll-table tr th.spread").text
-    # candidates << spread
-    #candidates.insert(0, candidates.delete_at(1))
   end
 
   def self.avg_results_hash
     results = []
     final_results = {}
-    clinton = get_page.css("ul#chart-choice-select li label.checked span.value").first.text.gsub("%", "").to_f
+    clinton = scrape_page.css("ul#chart-choice-select li label.checked span.value").first.text.gsub("%", "").to_f
     results << clinton
-    trump = get_page.css("ul#chart-choice-select li label.checked span.value").last.text.gsub("%", "").to_f
+    trump = scrape_page.css("ul#chart-choice-select li label.checked span.value").last.text.gsub("%", "").to_f
     results << trump
     results[0].to_i
     results[1].to_i
@@ -38,66 +25,64 @@ class PollTracker::Scraper
   end 
 
    def self.result_helper
-    polls = []
-    names = get_page.css("div.scrollable-poll-table table#poll-table td.choice") 
-    names
-  end  
+    names = scrape_page.css("div.scrollable-poll-table table#poll-table td.choice") 
+  end     
 
-  def self.all_results
-    results = []
-    result_helper.each do |el|
-      results << el.text
-      results
-    end
-    results = results.first(100)
-    results = results.delete_if do |num|
-      num.to_i < 20
-    end  
-  end
-
-  def self.trump_results
-    clinton = []
-    trump = []
-    trump, clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
-    trump
-  end
-
-  def self.clinton_results
-    clinton = []
-    trump = []
-    trump, clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
-    clinton
-  end    
-
-  def self.result_spread
+  def self.scrape_result_spread
     spreads = []
-    sp = get_page.css("div.scrollable-poll-table table#poll-table td.spread")
+    sp = scrape_page.css("div.scrollable-poll-table table#poll-table td.spread")
     sp.collect do |spread|
       spreads << spread.text
     end
     spreads.first(25)  
   end  
 
-  def self.poll_names
+  def self.scrape_poll_names
     polls = []
-    names = get_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
+    names = scrape_page.css("div.scrollable-poll-table table#poll-table tbody td.poll div.pollster a")
     names.children.collect do |name|
       polls << name.text
     end
     polls.first(25) 
   end
 
-  def self.poll_names_index
-    names = []
-    poll_names.each.with_index(1) do |name, i|
-       names << "#{i}. " "#{name}"
-    end
-    names
+  def self.trump_results
+    @clinton = []
+    @trump = []
+    @trump, @clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
+    @trump
   end
 
-  def self.poll_date
+  def self.clinton_results
+    @clinton = []
+    @trump = []
+    @trump, @clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
+    @clinton
+  end 
+
+  def self.poll_names_index
+    @names = []
+    scrape_poll_names.each.with_index(1) do |name, i|
+       @names << "#{i}. " "#{name}"
+    end
+    @names
+  end
+
+  def self.all_results
+    @results = []
+    result_helper.each do |el|
+      @results << el.text
+      @results
+    end
+    @results = @results.first(100)
+    @results = @results.delete_if do |num|
+      num.to_i < 20
+    end  
+  end
+
+  def self.scrape_poll_date
     date_array = []
-    date = get_page.css("tr.poll-single-subpopulation div.dates")
+    date = scrape_page.css("tr.poll-single-subpopulation div.dates")
     date.children.each do |dates|
       date_array << dates.text
     end
@@ -105,9 +90,9 @@ class PollTracker::Scraper
   end
 
 
-  def self.likely_voters
+  def self.scrape_likely_voters
     vote_array = []
-    voters = get_page.css("tr.poll-single-subpopulation div.npop")
+    voters = scrape_page.css("tr.poll-single-subpopulation div.npop")
     voters.children.each do |vote|
       vote_array << vote.text
     end

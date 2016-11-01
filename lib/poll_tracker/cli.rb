@@ -3,25 +3,34 @@ class PollTracker::CLI
 
   def call
     welcome
+
   end  
 
   def welcome
     input = nil
-    puts "POLL TRACKER 2016!! TRUMP vs CLINTON!! THE SHAMING OF AMERICA".red.bold
+    puts "***********POLL TRACKER 2016!! TRUMP vs CLINTON!!***********".white.on_light_red
+    puts "*****************THE SHAMING OF AMERICA!!!!*****************".white.on_light_red
     puts ""
-    # sleep(2)
-    puts "Hello! I am Poll Tracker! I can show many polls and a poll of those polls. I've even got a few stories to tell.".white.on_blue.bold
+    sleep(1.5 )
+    puts "----Hello! I am Poll Tracker! I can show you many polls.----".blue.on_light_white
+    puts "----I will also get you news stories about the election.----".blue.on_light_white 
+    puts "----Currently, the average of more than 300 polls shows:----".blue.on_light_white
+    puts ""
+    sleep(2)
+    score = PollTracker::Scraper.avg_results_hash
+    puts "*****HILLARY CLINTON***** =====> #{score[:clinton]}***********************".light_white.on_light_blue.underline
+    puts "*****DONALD TRUMP?******* =====> #{score[:trump]}********WTF! Seriously?".light_white.on_light_blue
     puts "" 
-    # sleep(1.5)
-    puts "To see what's happening in the 2016 Presidential Election type 'Hillary' or 'Trump'".blue.bold
-    puts "" 
+    sleep(2)
+    puts "Type 'YesHillary' or 'FuckTrump' to see a list of the 25 most recent polls. "
+
     while input != "exit" 
     input = gets.strip.downcase
       
-      if input.downcase == "trump" || input.downcase == "hillary"
+      if input.downcase == "fucktrump" || input.downcase == "yeshillary"
         list_polls     
       else 
-        puts "Rigged! Try again, type 'trump' or 'hillary'. Otherwise, type exit and leave!"       
+        puts "Rigged! Try again, type 'fucktrump' or 'yeshillary'. Otherwise, type exit and leave!"       
       end
       if input.downcase == "exit"
         puts "Goodbye. Vote Quimby!"
@@ -31,18 +40,20 @@ class PollTracker::CLI
 
 
   def list_polls
-    puts PollTracker::Scraper.poll_names_w_numbers
+    puts PollTracker::Scraper.poll_names_index
     puts "Please choose the number of the poll you would like to see."
     puts "Enter a number between 1-25"
     input = gets.strip
     if input.to_i.between?(1, 25)
-      puts PollTracker::Scraper.poll_names_index[input.to_i - 1]
-      puts "Type 'Hillary' or 'Trump' to see go back to list."
+      puts PollTracker::Poll.poll(input.to_i)
+
+      puts "Type 'YesHillary' or 'FuckTrump' to see go back to list."
 
     elsif
       puts "That is not a valid selection. Please pick again"
-      input_2.to_i.between?(1, 25)
-      puts PollTracker::Scraper.poll_names_index[input_2.to_i - 1] 
+      again = gets.strip
+      again.to_i.between?(1, 25)
+      puts PollTracker::Poll.poll(again.to_i)
     else
       exit
     end    
