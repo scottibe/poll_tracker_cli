@@ -324,3 +324,61 @@ def self.new_poll
       @new_poll_obj << self.new(name)
     end
   end
+
+
+  require 'pry'
+class PollTracker::Poll
+
+  attr_accessor :name, :date, :polled, :clinton, :trump, :lead
+
+  def initialize
+    @name = name
+    @date = date
+    @polled = polled
+    @lead = lead
+    @clinton = clinton
+    @trump = trump
+  end 
+
+  def self.new_poll(input)
+    @poll = self.new
+    @poll.name = PollTracker::Scraper.scrape_poll_names[input - 1]
+  end  
+
+  def clinton_result(input)
+    @poll.clinton = PollTracker::Scraper.clinton_results[input - 1]
+  end
+  
+  def trump_results(input)
+    @poll.trump = @poll.trump = PollTracker::Scraper.trump_results[input - 1]
+  end
+  
+  def lead(input)
+    @poll.lead = @poll.lead =  PollTracker::Scraper.scrape_result_spread[input - 1]   
+  end     
+
+  def date(input) 
+    @poll.date = @poll.date = PollTracker::Scraper.scrape_poll_date[input - 1]
+  end
+  
+  def self.polled(input)  
+     @poll.polled = PollTracker::Scraper.scrape_likely_voters[input - 1]
+  end
+end    
+
+def self.poll(input)
+    @poll = self.new
+    @poll.name = PollTracker::Scraper.scrape_poll_names[input - 1]
+    puts "Poll Source:--------------#{@poll.name}" 
+    @poll.clinton = PollTracker::Scraper.clinton_results[input - 1]
+    puts "Hillary Clinton: --------#{@poll.clinton}"
+    @poll.trump = PollTracker::Scraper.trump_results[input - 1]
+    puts "Donald Trump: -----------#{@poll.trump}"
+    @poll.lead =  PollTracker::Scraper.scrape_result_spread[input - 1]
+    puts "Lead: -------------------#{@poll.lead} Points"
+    @poll.date = PollTracker::Scraper.scrape_poll_date[input - 1]
+    puts "Dates Polled: -----------#{@poll.date}"
+    @poll.polled = PollTracker::Scraper.scrape_likely_voters[input - 1]
+    puts "Likely Voters Polled: ---#{@poll.polled}"    
+  end
+end 

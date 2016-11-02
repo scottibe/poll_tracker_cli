@@ -1,9 +1,13 @@
 require 'pry'
 class PollTracker::CLI
 
+  def initialize
+    @poll = PollTracker::Poll.new
+  end   
+
   def call
     welcome
-
+    call_poll
   end  
 
   def welcome
@@ -22,15 +26,16 @@ class PollTracker::CLI
     puts "*****DONALD TRUMP?******* =====> #{score[:trump]}********WTF! Seriously?".light_white.on_light_blue
     puts "" 
     sleep(2)
-    puts "Type 'YesHillary' or 'FuckTrump' to see a list of the 25 most recent polls. "
+    puts "Type 'YesHillary' or 'NeverTrump' to see a lissssssssst of the 25 most recent polls."
+    puts "Type 'exit' if this makes you sick and want to leave. PollTracker understands."
 
     while input != "exit" 
     input = gets.strip.downcase
       
-      if input.downcase == "fucktrump" || input.downcase == "yeshillary"
+      if input.downcase == "nevertrump" || input.downcase == "yeshillary"
         list_polls     
       else 
-        puts "Rigged! Try again, type 'fucktrump' or 'yeshillary'. Otherwise, type exit and leave!"       
+        puts "Rigged! Try again, type 'NoTrump' or 'YesHillary'. Otherwise, type exit and leave!"       
       end
       if input.downcase == "exit"
         puts "Goodbye. Vote Quimby!"
@@ -43,17 +48,33 @@ class PollTracker::CLI
     puts PollTracker::Scraper.poll_names_index
     puts "Please choose the number of the poll you would like to see."
     puts "Enter a number between 1-25"
+  end 
+  
+  def call_poll(input)  
     input = gets.strip
     if input.to_i.between?(1, 25)
-      puts PollTracker::Poll.poll(input.to_i)
+    binding.pry
+      puts @poll.poll_name(input.to_i)
+      puts @poll.clinton_result(input.to_i)
+      puts @poll.trump_result(input.to_i)
+      puts @poll.lead(input.to_i)
+      puts @poll.date(input.to_i)
+      puts @poll.polled(input.to_i)
+      # puts "Poll Source:-------------#{@poll.name}" 
+      # puts "Hillary Clinton: --------#{@poll.clinton}"
+      # puts "Donald Trump: -----------#{@poll.trump}"
+      # puts "Lead: -------------------#{@poll.lead} Points"
+      # puts "Dates Polled: -----------#{@poll.date}"
+      # puts "Likely Voters Polled: ---#{@poll.polled}"
 
-      puts "Type 'YesHillary' or 'FuckTrump' to see go back to list."
+      puts "Type 'YesHillary' or 'NeverTrump' to see go back to list."
 
     elsif
       puts "That is not a valid selection. Please pick again"
       again = gets.strip
       again.to_i.between?(1, 25)
-      puts PollTracker::Poll.poll(again.to_i)
+      puts "hey"
+      #PollTracker::Poll.poll(again.to_i)
     else
       exit
     end    

@@ -1,0 +1,20 @@
+class CLI
+  def initialize
+    @poll = ClassA.new
+  end
+
+  def method_calls_method
+    @poll.method
+  end
+end
+
+
+class CLI
+  def initialize(poll)
+    @poll = poll
+  end
+
+  def method_calls_method
+    @poll.method
+  end
+end
