@@ -57,8 +57,8 @@ class PollTracker::CLI
       @poll = PollTracker::Poll.new_poll(poll_number)
       
       puts "Poll Source:-------------#{@poll.name}" 
-      puts "Hillary Clinton: --------#{@poll.clinton_result}"
-      puts "Donald Trump: -----------#{@poll.trump_result}"
+      puts "Hillary Clinton: --------#{@poll.clinton}%"
+      puts "Donald Trump: -----------#{@poll.trump}%"
       puts "Lead: -------------------#{@poll.lead} Points"
       puts "Dates Polled: -----------#{@poll.date}"
       puts "Likely Voters Polled: ---#{@poll.polled}"
@@ -69,7 +69,7 @@ class PollTracker::CLI
       puts "That is not a valid selection. Please pick again"
       again = gets.strip
       again.to_i.between?(1, 25)
-      puts "hey"  #ignore this part and everything below
+      puts "hey"  #ignore this part and everything
       PollTracker::Poll.poll(again.to_i)
     else
       exit

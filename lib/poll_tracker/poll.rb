@@ -51,5 +51,6 @@ class PollTracker::Poll
     @poll.lead = @poll.leads(input)
     @poll.date = @poll.dates(input)
     @poll.polled = @poll.number_polled(input) 
+    @poll
   end
 end
