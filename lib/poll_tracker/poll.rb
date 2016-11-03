@@ -5,7 +5,7 @@ class PollTracker::Poll
 
   @@all = []
 
-  def initialize #(name=nil, date=nil, polled=nil, lead=nil, clinton=nil, trump=nil)
+  def initialize
     @name = name
     @date = date
     @polled = polled

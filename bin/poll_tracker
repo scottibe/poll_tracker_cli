@@ -5,7 +5,6 @@ require "poll_tracker"
 
 
  PollTracker::CLI.new.call
-# PollTracker::Scraper.new.poll
-# PollTracker::Candidates.new.create_by_page  
+  
 
 

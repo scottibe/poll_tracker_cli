@@ -1,10 +1,6 @@
 require 'pry'
 class PollTracker::CLI
 
-  # def initialize
-  #   @poll = PollTracker::Poll.new
-  # end   
-
   def call
     welcome 
   end  
@@ -75,60 +71,5 @@ class PollTracker::CLI
       exit
     end    
   end
-
-
-
 end
     
-
-
-
-
-
-  
-  #  this method will be below list of polls, 
-  # def list_polls
-  # polls = PollTracker::Poll.poll_names
-  # polls = polls.first(25)
-  #   polls.each.with_index(1) do |poll, i|
-  #     puts "#{i}. " "#{poll}"
-  #   end 
-  # end
-
-  # def poll_objects
-  #   puts  PollTracker::Poll.create_from_name
-  # end  
-
-
-
-
-     
-     
-   
-
- 
-
-#   def stories
-#   # this method will be below list of polls, it's only responsibility is to ask for user
-#   # user input and go to a list of news stories if user selects 'yes'
-#   puts "Poll Tracker knows the news, would you like to read about the election? y/n"
-
-#   input.downcase = gets.strip
-#   if input.downcase == 'y' || input.downcase == 'yes'
-#     headlines
-#   else 
-#     puts ""  
-
-#   end  
-
-# end
-
-
-
-
-
-  
-
-
-
-
