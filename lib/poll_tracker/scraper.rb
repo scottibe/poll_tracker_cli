@@ -2,8 +2,11 @@ require 'pry'
 require 'nokogiri'
 require 'open-uri'
 
+  
 
 class PollTracker::Scraper  
+
+  attr_accessor :poll
 
   def self.scrape_page      
     doc = Nokogiri::HTML(open("http://elections.huffingtonpost.com/pollster/2016-general-election-trump-vs-clinton"))  
@@ -99,4 +102,3 @@ class PollTracker::Scraper
     vote_array.first(25)
   end
 end
-
