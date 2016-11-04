@@ -31,7 +31,7 @@ class PollTracker::CLI
         list_polls
         show_poll     
       else 
-        puts "Rigged! Try again, type 'NoTrump' or 'YesHillary'. Otherwise, type exit and leave!"       
+        puts "Rigged! Try again, type 'NeverTrump' or 'YesHillary'. Otherwise, type exit and leave!"       
       end
       if input.downcase == "exit"
         puts "Goodbye. Vote Quimby!"
@@ -49,26 +49,28 @@ class PollTracker::CLI
     puts "Enter a number between 1-25"
 
     poll_number = gets.strip
-    if poll_number.to_i.between?(1, 25)
+    poll_number = poll_number.to_i - 1
+    if poll_number.between?(0, 24)
       @poll = PollTracker::Poll.new_poll(poll_number)
-      
+      puts ""
       puts "Poll Source:-------------#{@poll.name}" 
       puts "Hillary Clinton: --------#{@poll.clinton}%"
       puts "Donald Trump: -----------#{@poll.trump}%"
       puts "Lead: -------------------#{@poll.lead} Points"
       puts "Dates Polled: -----------#{@poll.date}"
       puts "Likely Voters Polled: ---#{@poll.polled}"
-
+      puts ""
       puts "Type 'YesHillary' or 'NeverTrump' to see go back to list."
+      puts "Or type 'exit' to leave"
 
     elsif
       puts "That is not a valid selection. Please pick again"
-      again = gets.strip
-      again.to_i.between?(1, 25)
-      puts "hey"  #ignore this part and everything
-      PollTracker::Poll.poll(again.to_i)
-    else
-      exit
+      show_poll
+      # again = gets.strip
+      # again.to_i.between?(1, 25)
+      # puts "hey" 
+      # PollTracker::Poll.new_poll(again)
+    
     end    
   end
 end
