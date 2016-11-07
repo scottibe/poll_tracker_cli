@@ -3,8 +3,6 @@ class PollTracker::Poll
 
   attr_accessor :name, :date, :polled, :clinton, :trump, :lead
 
-  @@all = []
-
   def initialize
     @name = name
     @date = date
@@ -12,11 +10,6 @@ class PollTracker::Poll
     @lead = lead
     @clinton = clinton
     @trump = trump
-    @@all << self
-  end 
-    
-  def self.all 
-    @@all 
   end  
 
   def names(input)

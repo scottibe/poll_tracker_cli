@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["bewick.scott@gmail.com"]
 
   spec.summary       = %q{it tracks presidential polls}     
-  spec.description   = %q{presents top polls clinton trump allows you to look at each polls statistics several stories on election updated daily}     
-  # spec.homepage      = "www.github.com/scottibe"
+  spec.description   = %q{presents top polls clinton trump allows you to look at each polls statistics updated daily}     
+  spec.homepage      = "https://github.com/scottibe/poll_tracker_cli"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -23,16 +23,16 @@ Gem::Specification.new do |spec|
   end
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir        = "bin"
+  spec.executables   = ["poll_tracker"]
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.12"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "pry-byebug"
-  spec.add_development_dependency "byebug"
+  spec.add_development_dependency "pry-byebug", "~> 3.4.0", ">= 3.4.0" 
+  spec.add_development_dependency "byebug", "~> 9.0", ">= 9.0.5"
 
-  spec.add_runtime_dependency "colorize"
-  spec.add_runtime_dependency "nokogiri"
+  spec.add_runtime_dependency "colorize", "~> 0.8.1"
+  spec.add_runtime_dependency "nokogiri", "~> 1.6", ">= 1.6.8"
 
 end
