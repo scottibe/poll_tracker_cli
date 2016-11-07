@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+  After you have successfully installed the gem, type 'poll_tracker' into the command line and press enter. Follow the instructions on the screen to see polls. 
 
 ## Development
 
