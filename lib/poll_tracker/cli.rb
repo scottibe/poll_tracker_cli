@@ -12,15 +12,14 @@ class PollTracker::CLI
     puts ""
     sleep(1.5 )
     puts "----Hello! I am Poll Tracker! I can show you many polls.----".blue.on_light_white
-    puts "----I will also get you news stories about the election.----".blue.on_light_white 
     puts "----Currently, the average of more than 300 polls shows:----".blue.on_light_white
     puts ""
-    sleep(2)
+    sleep(1.5)
     score = PollTracker::Scraper.avg_results_hash
     puts "*****HILLARY CLINTON***** =====> #{score[:clinton]}***********************".light_white.on_light_blue.underline
-    puts "*****DONALD TRUMP?******* =====> #{score[:trump]}********WTF! Seriously?".light_white.on_light_blue
+    puts "*****DONALD TRUMP?******* =====> #{score[:trump]}************ Seriously?".light_white.on_light_blue
     puts "" 
-    sleep(2)
+    sleep(1.5)
     puts "Type 'YesHillary' or 'NeverTrump' to see a list of the 25 most recent polls."
     puts "Type 'exit' if this makes you sick and want to leave. PollTracker understands."
 
@@ -64,8 +63,8 @@ class PollTracker::CLI
       puts "Or type 'exit' to leave"
 
     elsif
-      puts "That is not a valid selection. Please pick again"
-      show_poll
+      puts "That is not a valid selection. 
+      Please type 'NeverTrump' or 'YesHillary' and choose again"
     end    
   end
 end
