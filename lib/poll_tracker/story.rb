@@ -1,6 +1,0 @@
-class PollTracker::Story
-
-
-
-
-end

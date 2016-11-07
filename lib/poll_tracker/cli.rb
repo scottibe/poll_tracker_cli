@@ -66,11 +66,6 @@ class PollTracker::CLI
     elsif
       puts "That is not a valid selection. Please pick again"
       show_poll
-      # again = gets.strip
-      # again.to_i.between?(1, 25)
-      # puts "hey" 
-      # PollTracker::Poll.new_poll(again)
-    
     end    
   end
 end
