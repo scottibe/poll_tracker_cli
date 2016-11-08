@@ -49,35 +49,36 @@ class PollTracker::Scraper
   end
 
   def self.trump_results
-    @clinton = []
-    @trump = []
-    @trump, @clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
-    @trump
+    clinton = []
+    trump = []
+    trump, @clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
+    trump
   end
 
   def self.clinton_results
-    @clinton = []
-    @trump = []
-    @trump, @clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
-    @clinton
+    clinton = []
+    trump = []
+    trump, clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
+    binding.pry
+    clinton
   end 
 
   def self.poll_names_index
-    @names = []
+    names = []
     scrape_poll_names.each.with_index(1) do |name, i|
-       @names << "#{i}. " "#{name}"
+       names << "#{i}. " "#{name}"
     end
-    @names
+    names
   end
 
   def self.all_results
-    @results = []
+    results = []
     result_helper.each do |el|
-      @results << el.text
-      @results
+      results << el.text
+      results
     end
-    @results = @results.first(100)
-    @results = @results.delete_if do |num|
+    results = results.first(100)
+    results = results.delete_if do |num|
       num.to_i < 20
     end  
   end
