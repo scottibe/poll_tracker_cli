@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install poll_tracker
+    $ gem install poll_tracker 
 
 ## Usage
 
