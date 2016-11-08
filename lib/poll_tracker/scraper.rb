@@ -59,7 +59,6 @@ class PollTracker::Scraper
     clinton = []
     trump = []
     trump, clinton = all_results.each_with_index.partition { |v| v[1].even?}.map{ |v| v.map{ |v| v[0] }}
-    binding.pry
     clinton
   end 
 
